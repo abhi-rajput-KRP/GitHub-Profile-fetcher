@@ -23,9 +23,11 @@ const Login = () => {
               await signInWithEmailAndPassword(auth, email, password);
               const querySnapshot = await getDocs(collection(db, "users"),where("email","==",email));
               querySnapshot.forEach((doc) => {
-                sessionStorage.setItem("username", doc.data().username);
+                if (email === doc.data().email){
+                  sessionStorage.setItem("username", doc.data().username);
+                  window.location.href = '/profile';
+                }
               });
-              window.location.href = '/profile';
             } catch (error) {
               alert("Error logging in user: " + error.message);
             }
